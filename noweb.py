@@ -11,28 +11,30 @@
 #
 
 import sys, re
-filename = sys.argv[-1]
-outputChunkName = sys.argv[-2][2:]
-file = open(filename)
-chunkName = None
-chunks = {}
+
 OPEN = "<<"
 CLOSE = ">>"
-for line in file:
-    match = re.match(OPEN + "([^>]+)" + CLOSE + "=", line)
-    if match:
-        chunkName = match.group(1)
-        # If chunkName exists in chunks, then we'll just add to the existing chunk.
-        if not chunkName in chunks:
-            chunks[chunkName] = []
-    else:
-        match = re.match("@", line)
-        if match:
-            chunkName = None
-        elif chunkName:
-            chunks[chunkName].append(line)
 
-def expand(chunkName, indent):
+def parse_chunks(document):
+    chunkName = None
+    chunks = {}
+    for line in document.split('\n'):
+        match = re.match(OPEN + "([^>]+)" + CLOSE + "=", line)
+        if match:
+            chunkName = match.group(1)
+            # If chunkName exists in chunks, then we'll just add to the existing chunk.
+            if not chunkName in chunks:
+                chunks[chunkName] = []
+        else:
+            match = re.match("@", line)
+            if match:
+                chunkName = None
+            elif chunkName:
+                chunks[chunkName].append(line)
+
+    return chunks
+
+def expand(chunks, chunkName, indent=""):
     chunkLines = chunks[chunkName]
     expandedChunkLines = []
     for line in chunkLines:
@@ -42,6 +44,3 @@ def expand(chunkName, indent):
         else:
             expandedChunkLines.append(indent + line)
     return expandedChunkLines
-
-for line in expand(outputChunkName, ""):
-    print line,
