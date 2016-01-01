@@ -1,17 +1,30 @@
 import unittest
-from noweb import parse_chunks, expand
+from noweb import Document
 
 class ParserTest(unittest.TestCase):
-    def test_parse(self):
-        test_doc = TEST_DOC
-        chunks = parse_chunks(test_doc)
-        print(chunks)
-        target = expand(chunks, "test code")
+    def test_parse_flat(self):
+        d = Document(TEST_DOC_FLAT)
+        target = d.get_chunk("test code")
         self.assertEqual(target, ['print("Hello, world!")'])
 
-TEST_DOC = """This is a test document.
+    def test_parse_nested(self):
+        d = Document(TEST_DOC_NESTED)
+        target = d.get_chunk("test code")
+        self.assertEqual(target, ['print("Hello, world!")'])
+
+TEST_DOC_FLAT = """This is a test document.
 <<test code>>=
 print("Hello, world!")
+@
+This concludes the test
+"""
+
+TEST_DOC_NESTED = """This is a test document.
+<<test code inner>>=
+print("Hello, world!")
+@
+<<test code>>=
+<<test code inner>>
 @
 This concludes the test
 """
