@@ -11,6 +11,8 @@ class ParserTest(unittest.TestCase):
         d = Document(TEST_DOC_NESTED)
         target = d.get_chunk("test code")
         self.assertEqual(target, ['print("Hello, world!")'])
+        target = d.get_chunk("test code inner")
+        self.assertEqual(target, ['print("Hello, world!")'])
 
 TEST_DOC_FLAT = """This is a test document.
 <<test code>>=
