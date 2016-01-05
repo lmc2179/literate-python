@@ -6,14 +6,14 @@ from literate_python import Document, Tangler, Weaver
 class ParserTest(unittest.TestCase):
     def test_parse_flat(self):
         d = Document(TEST_DOC_FLAT)
-        target = d.get_chunk_recursive("test_flat.py")
+        target = d.get_section("test_flat.py")
         self.assertEqual(target, ['print("Hello, world!")'])
 
     def test_parse_nested(self):
         d = Document(TEST_DOC_NESTED)
-        target = d.get_chunk_recursive("test_nested.py")
+        target = d.get_section("test_nested.py")
         self.assertEqual(target, ['print("Hello, world!")'])
-        target = d.get_chunk_recursive("test code inner")
+        target = d.get_section("test code inner")
         self.assertEqual(target, ['print("Hello, world!")'])
 
 class TangleTest(unittest.TestCase):
@@ -37,14 +37,14 @@ class WeaveTest(unittest.TestCase):
         target = os.path.join(temp_dir, 'test_flat.py')
         Weaver().weave_module('test_flat.pyl', target)
         output = open(target).read()
-        self.assertEqual(output, TEST_DOC_FLAT)
+        self.assertEqual(output, TEST_DOC_FLAT_WOVEN)
 
     def test_weave_nested(self):
         temp_dir = tempfile.mkdtemp()
         target = os.path.join(temp_dir, 'test_nested.py')
         Weaver().weave_module('test_nested.pyl', target)
         output = open(target).read()
-        self.assertEqual(output, TEST_DOC_NESTED)
+        self.assertEqual(output, TEST_DOC_NESTED_WOVEN)
 
 TEST_DOC_FLAT = """\documentclass{article}
 \\begin{document}
@@ -55,7 +55,19 @@ print("Hello, world!")
 @
 $
 This concludes the test
-\\end{document}"""
+\\end{document}
+"""
+
+TEST_DOC_FLAT_WOVEN = """\documentclass{article}
+\\begin{document}
+This is a test document.
+$
+<<test_flat.py>>=
+print("Hello, world!")
+$
+This concludes the test
+\\end{document}
+"""
 
 TEST_DOC_NESTED = """\documentclass{article}
 \\begin{document}
@@ -64,12 +76,30 @@ $
 <<test code inner>>=
 print("Hello, world!")
 @
+$
+$
 <<test_nested.py>>=
 <<test code inner>>
 @
 $
 This concludes the test
-\end{document}"""
+\\end{document}
+"""
+
+TEST_DOC_NESTED_WOVEN = """\documentclass{article}
+\\begin{document}
+This is a test document.
+$
+<<test code inner>>=
+print("Hello, world!")
+$
+$
+<<test_nested.py>>=
+print("Hello, world!")
+$
+This concludes the test
+\\end{document}
+"""
 
 if __name__ == '__main__':
     unittest.main()

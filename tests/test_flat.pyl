@@ -1,10 +1,8 @@
 \documentclass{article}
 \begin{document}
 This is a test document.
-$
 <<test_flat.py>>=
 print("Hello, world!")
 @
-$
 This concludes the test
 \end{document}
