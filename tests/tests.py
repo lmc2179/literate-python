@@ -46,20 +46,30 @@ class WeaveTest(unittest.TestCase):
         output = open(target).read()
         self.assertEqual(output, TEST_DOC_NESTED)
 
-TEST_DOC_FLAT = """This is a test document.
+TEST_DOC_FLAT = """\documentclass{article}
+\\begin{document}
+This is a test document.
+$
 <<test_flat.py>>=
 print("Hello, world!")
 @
-This concludes the test"""
+$
+This concludes the test
+\\end{document}"""
 
-TEST_DOC_NESTED = """This is a test document.
+TEST_DOC_NESTED = """\documentclass{article}
+\\begin{document}
+This is a test document.
+$
 <<test code inner>>=
 print("Hello, world!")
 @
 <<test_nested.py>>=
 <<test code inner>>
 @
-This concludes the test"""
+$
+This concludes the test
+\end{document}"""
 
 if __name__ == '__main__':
     unittest.main()
