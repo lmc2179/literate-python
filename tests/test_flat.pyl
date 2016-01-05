@@ -1,0 +1,5 @@
+This is a test document.
+<<test_flat.py>>=
+print("Hello, world!")
+@
+This concludes the test

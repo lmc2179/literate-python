@@ -41,5 +41,15 @@ class Document(object):
                 expanded_chunk_lines.append(indent + line)
         return expanded_chunk_lines
 
-    def get_chunk(self, chunkName):
-        return self._expand(self.chunks, chunkName)
+    def get_chunk_recursive(self, section_name):
+        return self._expand(self.chunks, section_name)
+
+class Tangler(object):
+    def tangle_module(self, lp_filename, main_chunk_name, target_filename):
+        f = open(lp_filename)
+        file_contents = f.read()
+        d = Document(file_contents)
+        tangled_file = '\n'.join(d.get_chunk_recursive(main_chunk_name))
+        f_out = open(target_filename, 'w')
+        f_out.write(tangled_file)
+        f_out.close()
