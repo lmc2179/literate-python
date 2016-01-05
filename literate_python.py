@@ -53,3 +53,11 @@ class Tangler(object):
         f_out = open(target_filename, 'w')
         f_out.write(tangled_file)
         f_out.close()
+
+class Weaver(object):
+    def weave_module(self, lp_filename, target_filename):
+        f = open(lp_filename)
+        file_contents = f.read()
+        f_out = open(target_filename, 'w')
+        f_out.write(file_contents)
+        f_out.close()
