@@ -59,11 +59,33 @@ class Document(object):
             if line_type == self.PYTHON:
                 section_code = '\n'.join(self.get_section(line))
                 woven_doc += "\\begin{lstlisting}" #TODO: Colors and stuff in doc?
-                woven_doc += '$\n<<{0}>>=\n{1}\n$\n'.format(line, section_code)
+                woven_doc += '<<{0}>>=\n{1}\n'.format(line, section_code)
                 woven_doc += "\end{lstlisting}"
             elif line_type == self.LATEX:
                 woven_doc += line + '\n'
+        woven_doc = self._add_document_level_info(woven_doc)
         return woven_doc
+
+    def _add_document_level_info(self, doc):
+        PACKAGE_DECLARATION = """\documentclass{article}
+\\usepackage{color}
+\\usepackage[procnames]{listings}"""
+        COLOR_AND_LIST_INFO = """\\begin{document}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python,
+        basicstyle=\\ttfamily\small,
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class}}"""
+        doc = doc.replace('\documentclass{article}', PACKAGE_DECLARATION)
+        doc = doc.replace('\\begin{document}', COLOR_AND_LIST_INFO)
+        return doc
 
 class Tangler(object):
     def tangle_module(self, lp_filename, main_chunk_name, target_filename):

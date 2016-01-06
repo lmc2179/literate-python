@@ -1,19 +1,5 @@
 \documentclass{article}
-\usepackage{color}
-\usepackage[procnames]{listings}
 \begin{document}
-\definecolor{keywords}{RGB}{255,0,90}
-\definecolor{comments}{RGB}{0,0,113}
-\definecolor{red}{RGB}{160,0,0}
-\definecolor{green}{RGB}{0,150,0}
-\lstset{language=Python,
-        basicstyle=\ttfamily\small,
-        keywordstyle=\color{keywords},
-        commentstyle=\color{comments},
-        stringstyle=\color{red},
-        showstringspaces=false,
-        identifierstyle=\color{green},
-        procnamekeys={def,class}}
 This is a test document.
 <<test_flat.py>>=
 print("Hello, world!")

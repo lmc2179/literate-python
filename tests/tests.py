@@ -79,7 +79,6 @@ This is a test document.
 \\begin{lstlisting}$
 <<test_flat.py>>=
 print("Hello, world!")
-$
 \end{lstlisting}This concludes the test
 \\end{document}
 """
@@ -109,7 +108,6 @@ TEST_DOC_NESTED_WOVEN = """\documentclass{article}
 \definecolor{comments}{RGB}{0,0,113}
 \definecolor{red}{RGB}{160,0,0}
 \definecolor{green}{RGB}{0,150,0}
-
 \lstset{language=Python,
         basicstyle=\\ttfamily\small,
         keywordstyle=\color{keywords},
@@ -122,11 +120,9 @@ This is a test document.
 \\begin{lstlisting}$
 <<test code inner>>=
 print("Hello, world!")
-$
 \end{lstlisting}\\begin{lstlisting}$
 <<test_nested.py>>=
 print("Hello, world!")
-$
 \end{lstlisting}This concludes the test
 \end{document}
 """
