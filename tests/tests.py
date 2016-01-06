@@ -59,9 +59,10 @@ This concludes the test
 \\end{document}
 """
 
-TEST_DOC_FLAT_WOVEN = """\\documentclass{article}
+TEST_DOC_FLAT_WOVEN = """\documentclass{article}
 \\usepackage{color}
 \\usepackage[procnames]{listings}
+\\usepackage{algorithm}
 \\begin{document}
 \definecolor{keywords}{RGB}{255,0,90}
 \definecolor{comments}{RGB}{0,0,113}
@@ -76,11 +77,10 @@ TEST_DOC_FLAT_WOVEN = """\\documentclass{article}
         identifierstyle=\color{green},
         procnamekeys={def,class}}
 This is a test document.
-\\begin{lstlisting}$
-<<test_flat.py>>=
+\\begin{algorithm}\caption{test\_flat.py}\\begin{lstlisting}
 print("Hello, world!")
-\end{lstlisting}This concludes the test
-\\end{document}
+\end{lstlisting}\end{algorithm}This concludes the test
+\end{document}
 """
 
 TEST_DOC_NESTED = """\documentclass{article}
@@ -103,6 +103,7 @@ This concludes the test
 TEST_DOC_NESTED_WOVEN = """\documentclass{article}
 \\usepackage{color}
 \\usepackage[procnames]{listings}
+\\usepackage{algorithm}
 \\begin{document}
 \definecolor{keywords}{RGB}{255,0,90}
 \definecolor{comments}{RGB}{0,0,113}
@@ -117,13 +118,11 @@ TEST_DOC_NESTED_WOVEN = """\documentclass{article}
         identifierstyle=\color{green},
         procnamekeys={def,class}}
 This is a test document.
-\\begin{lstlisting}$
-<<test code inner>>=
+\\begin{algorithm}\caption{test code inner}\\begin{lstlisting}
 print("Hello, world!")
-\end{lstlisting}\\begin{lstlisting}$
-<<test_nested.py>>=
+\end{lstlisting}\end{algorithm}\\begin{algorithm}\caption{test\_nested.py}\\begin{lstlisting}
 print("Hello, world!")
-\end{lstlisting}This concludes the test
+\end{lstlisting}\end{algorithm}This concludes the test
 \end{document}
 """
 

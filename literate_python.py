@@ -58,18 +58,23 @@ class Document(object):
         for line_type, line in self.map:
             if line_type == self.PYTHON:
                 section_code = '\n'.join(self.get_section(line))
+                woven_doc += "\\begin{algorithm}"
+                woven_doc += "\caption{"+ line + "}"
                 woven_doc += "\\begin{lstlisting}" #TODO: Colors and stuff in doc?
-                woven_doc += '<<{0}>>=\n{1}\n'.format(line, section_code)
+                woven_doc += '\n{0}\n'.format(section_code)
                 woven_doc += "\end{lstlisting}"
+                woven_doc += "\\end{algorithm}"
             elif line_type == self.LATEX:
                 woven_doc += line + '\n'
         woven_doc = self._add_document_level_info(woven_doc)
+        woven_doc = woven_doc.replace('_', '\\_')
         return woven_doc
 
     def _add_document_level_info(self, doc):
         PACKAGE_DECLARATION = """\documentclass{article}
 \\usepackage{color}
-\\usepackage[procnames]{listings}"""
+\\usepackage[procnames]{listings}
+\\usepackage{algorithm}"""
         COLOR_AND_LIST_INFO = """\\begin{document}
 \definecolor{keywords}{RGB}{255,0,90}
 \definecolor{comments}{RGB}{0,0,113}
