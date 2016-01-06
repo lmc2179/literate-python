@@ -58,7 +58,9 @@ class Document(object):
         for line_type, line in self.map:
             if line_type == self.PYTHON:
                 section_code = '\n'.join(self.get_section(line))
+                woven_doc += "\\begin{lstlisting}" #TODO: Colors and stuff in doc?
                 woven_doc += '$\n<<{0}>>=\n{1}\n$\n'.format(line, section_code)
+                woven_doc += "\end{lstlisting}"
             elif line_type == self.LATEX:
                 woven_doc += line + '\n'
         return woven_doc

@@ -32,6 +32,7 @@ class TangleTest(unittest.TestCase):
         self.assertEqual(output, """print("Hello, world!")""")
 
 class WeaveTest(unittest.TestCase):
+    maxDiff = None
     def test_weave_flat(self):
         temp_dir = tempfile.mkdtemp()
         target = os.path.join(temp_dir, 'test_flat.py')
@@ -58,14 +59,28 @@ This concludes the test
 \\end{document}
 """
 
-TEST_DOC_FLAT_WOVEN = """\documentclass{article}
+TEST_DOC_FLAT_WOVEN = """\\documentclass{article}
+\\usepackage{color}
+\\usepackage[procnames]{listings}
 \\begin{document}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python,
+        basicstyle=\\ttfamily\small,
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class}}
 This is a test document.
-$
+\\begin{lstlisting}$
 <<test_flat.py>>=
 print("Hello, world!")
 $
-This concludes the test
+\end{lstlisting}This concludes the test
 \\end{document}
 """
 
@@ -87,18 +102,33 @@ This concludes the test
 """
 
 TEST_DOC_NESTED_WOVEN = """\documentclass{article}
+\\usepackage{color}
+\\usepackage[procnames]{listings}
 \\begin{document}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+
+\lstset{language=Python,
+        basicstyle=\\ttfamily\small,
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class}}
 This is a test document.
-$
+\\begin{lstlisting}$
 <<test code inner>>=
 print("Hello, world!")
 $
-$
+\end{lstlisting}\\begin{lstlisting}$
 <<test_nested.py>>=
 print("Hello, world!")
 $
-This concludes the test
-\\end{document}
+\end{lstlisting}This concludes the test
+\end{document}
 """
 
 if __name__ == '__main__':
