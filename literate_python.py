@@ -36,13 +36,13 @@ class Document(object):
         return re.match("@", line)
 
     def _expand(self, sections_dict, section_name, indent=""):
-        indent = ""
         section_lines = sections_dict[section_name]
         expanded_section_lines = []
         for line in section_lines:
             match = re.match("(\s*)" + OPEN + "([^>]+)" + CLOSE + "\s*$", line)
             if match:
-                expanded_section_lines.extend(self._expand(sections_dict, match.group(2), indent + match.group(1)))
+                subsection_lines = self._expand(sections_dict, match.group(2), indent + match.group(1))
+                expanded_section_lines.extend(subsection_lines)
             else:
                 expanded_section_lines.append(indent + line)
         return expanded_section_lines

@@ -47,6 +47,14 @@ class WeaveTest(unittest.TestCase):
         output = open(target).read()
         self.assertEqual(output, TEST_DOC_NESTED_WOVEN)
 
+    def test_weave_adhoc(self):
+        temp_dir = tempfile.mkdtemp()
+        target = os.path.join(temp_dir, 'test_adhoc.py')
+        Weaver().weave_module('test_adhoc.pyl', target)
+        output = open(target).read()
+        print('Output from adhoc:')
+        print(output)
+
 TEST_DOC_FLAT = """\documentclass{article}
 \\begin{document}
 This is a test document.

@@ -1,0 +1,15 @@
+\documentclass{article}
+\begin{document}
+This is a test document.
+<<test code inner>>=
+print("Hello, world!")
+@
+<<test code inner2>>=
+print("Hello, world!")
+@
+<<test_nested.py>>=
+<<test code inner>>
+    <<test code inner2>>
+@
+This concludes the test
+\end{document}
