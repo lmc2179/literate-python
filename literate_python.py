@@ -59,7 +59,7 @@ class Document(object):
             if line_type == self.PYTHON:
                 section_code = '\n'.join(self.get_section(line))
                 woven_doc += "\\begin{algorithm}"
-                woven_doc += "\caption{"+ line + "}"
+                woven_doc += "\caption{"+ line.replace('_', '\\_') + "}"
                 woven_doc += "\\begin{lstlisting}" #TODO: Colors and stuff in doc?
                 woven_doc += '\n{0}\n'.format(section_code)
                 woven_doc += "\end{lstlisting}"
@@ -67,7 +67,6 @@ class Document(object):
             elif line_type == self.LATEX:
                 woven_doc += line + '\n'
         woven_doc = self._add_document_level_info(woven_doc)
-        woven_doc = woven_doc.replace('_', '\\_')
         return woven_doc
 
     def _add_document_level_info(self, doc):
